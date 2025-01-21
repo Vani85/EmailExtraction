@@ -1,34 +1,35 @@
-const fs = 
-require('fs');
+const fs = require('fs');
 
 function readInputFile() {
     const fileData = fs.readFileSync('test.txt','utf8');
     return fileData;     
 }
 
-var input =readInputFile();
-var counter = 0
+function withoutRegex() {
+    var input =readInputFile();
+    var counter = 0
 
-//Using legacy code
+    //Using legacy code
 
-while(input.length>0)
-{
-    if ((input.includes('@softwire.com'))) {     
-    counter = counter + 1 
-    input = input.substring(input.indexOf("@softwire.com") + 13);
+    while(input.length>0){
+        if ((input.includes('@softwire.com'))) {     
+            counter = counter + 1 
+            input = input.substring(input.indexOf("@softwire.com") + 13);
+        }
+        else       
+            break;       
     }
-    else
-    {
-        break;
-    }
+    console.log("Counter without regex : " +counter); // count: 301 
 }
-console.log("Legacy code: " +counter); // count: 301 
 
-//Code which uses regex
-const re = new RegExp("[\w*\.\w*]+@\w*[\.\w*]+");
-var regExMatch = [...input.matchAll("\w*\.\w*@softwire.com ")];
-regExMatch.forEach((match)=>{
-    console.log(match[0]);
-})
-console.log(regExMatch.length);// Expected: 261 match
+function withRegex() {
+    var input =readInputFile();
+
+    //Code which uses regex
+    var regExMatch = input.match(/((\w)+|((\w)+.(\w)+))@softwire.com\s/g);     
+    console.log("Counter with regex : " + regExMatch.length);// Expected: 261 match
+}
+
+withoutRegex();
+withRegex();
 
