@@ -19,17 +19,42 @@ function withoutRegex() {
         else       
             break;       
     }
-    console.log("Counter without regex : " +counter); // count: 301 
+    console.log("Softwire Counter without regex : " +counter); // count: 301 
 }
 
 function withRegex() {
     var input =readInputFile();
 
-    //Code which uses regex
-    var regExMatch = input.match(/((\w)+|((\w)+.(\w)+))@softwire.com\s/g);     
-    console.log("Counter with regex : " + regExMatch.length);// Expected: 261 match
+    //Softwire emails Expected: 261 match
+    var regExMatch = input.match(/((\w)+|((\w)+[.|'|+|_|%|-](\w)+))@softwire.com\s/g); 
+    console.log("Softwire Counter with regex : " + regExMatch.length);
+}
+
+function usingDictionary() {
+    var input =readInputFile();
+    // All domains - 1925 match
+    var regExMatch = input.match(/((\w)+|((\w)+[.|'|+|_|%|-](\w)+))@(\w)+[.(\w)+]+\s/g);   
+    console.log("All domains Counter with regex : " + regExMatch.length); 
+    let dictionary = {};
+    regExMatch.forEach(element => {
+
+        let domain = element.slice(element.indexOf("@")).trim();
+        if(dictionary.hasOwnProperty(domain)) {
+            dictionary[domain] =   parseInt(dictionary[domain]) + 1;
+        } else {
+            dictionary[domain] = 1;
+        }       
+
+   });
+
+   for (const key of Object.keys(dictionary)) { 
+    console.log(key + ": " + dictionary[key]); 
+ };
+
+ 
 }
 
 withoutRegex();
 withRegex();
+usingDictionary();
 
