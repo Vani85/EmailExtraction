@@ -1,13 +1,13 @@
-const fs = require('fs');
+const fs = 
+require('fs');
 
 function readInputFile() {
-    var data;
-    fs.readFile('test.txt', (err, data) => {
+    fs.readFile('test.txt', 'utf8',(err, data) => {
     if (err) throw err;
-
-    //console.log(data.toString());
-    });
-     return data;
+    console.log(data);
+    });    
+    const fileData = fs.readFileSync('test.txt','utf8');
+    return fileData;     
 }
 
 var input =readInputFile();
